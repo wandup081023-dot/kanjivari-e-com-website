@@ -59,7 +59,7 @@ function CollectionCard({ collection, index }: { collection: Collection; index: 
                 alt={collection.name}
                 fill
                 sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                className="object-cover"
+                className="object-cover blur-[2px]"
                 priority={index < 3}
               />
             </motion.div>

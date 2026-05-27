@@ -1,10 +1,8 @@
 'use client';
 
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   SlidersHorizontal,
   ChevronDown,
@@ -20,11 +18,8 @@ import {
 import ProductCard from '@/components/products/ProductCard';
 import {
   PRODUCTS,
-  getProductsByCollection,
-  getCollectionBySlug,
   formatPrice,
   Product,
-  Collection,
 } from '@/lib/data';
 
 // ─── Types ─────────────────────────────────────────────────────────────────
@@ -177,51 +172,6 @@ function FilterPanel({ filters, onChange, onReset, productCount }: {
   );
 }
 
-// ─── Hero Banner ───────────────────────────────────────────────────────────
-function CollectionHero({ collection }: { collection: Collection }) {
-  const bannerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: bannerRef, offset: ['start start', 'end start'] });
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-
-  return (
-    <section ref={bannerRef} className="relative h-[42vh] sm:h-[50vh] overflow-hidden">
-      <motion.div className="absolute inset-0 scale-110" style={{ y }}>
-        <Image src={collection.banner} alt={collection.name} fill sizes="100vw" className="object-cover" priority />
-      </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-r from-maroon-deep/80 via-maroon-deep/50 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-maroon-deep/60 via-transparent to-transparent" />
-      <div className="absolute inset-0 flex flex-col justify-end pb-10 px-6 sm:px-10 lg:px-16">
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <div className="flex items-center gap-2 text-champagne/60 text-xs uppercase tracking-wider mb-4">
-            <Link href="/" className="hover:text-champagne transition-colors">Home</Link>
-            <span>/</span>
-            <Link href="/collections" className="hover:text-champagne transition-colors">Collections</Link>
-            <span>/</span>
-            <span className="text-champagne">{collection.name}</span>
-          </div>
-          <p className="text-gold text-xs tracking-[0.3em] uppercase mb-2">{collection.productCount}+ Handcrafted Pieces</p>
-          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-ivory leading-tight">{collection.name}</h1>
-          <p className="mt-3 text-sm text-champagne/70 max-w-xl">{collection.description}</p>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Not Found ─────────────────────────────────────────────────────────────
-function CollectionNotFound() {
-  return (
-    <div className="min-h-screen bg-warm-white flex flex-col items-center justify-center pt-8 px-6 text-center">
-      <div className="text-6xl mb-6">💎</div>
-      <h1 className="font-serif text-4xl font-light text-ink mb-3">Collection Not Found</h1>
-      <p className="text-gray-500 mb-8">This collection doesn&apos;t exist or may have been moved.</p>
-      <Link href="/collections" className="btn-luxury btn-primary rounded-full px-8 py-3.5 flex items-center gap-2">
-        <ArrowLeft size={16} /> View All Collections
-      </Link>
-    </div>
-  );
-}
-
 // ─── Sort Dropdown ─────────────────────────────────────────────────────────
 function SortDropdown({ value, onChange }: { value: SortOption; onChange: (v: SortOption) => void }) {
   const [open, setOpen] = useState(false);
@@ -284,13 +234,8 @@ function ListProductCard({ product }: { product: Product }) {
 }
 
 // ─── Main Page Component ───────────────────────────────────────────────────
-export default function CollectionPage() {
-  const params = useParams();
-  const slug = params?.slug as string;
-
-  const collection = getCollectionBySlug(slug);
-  const rawProducts = getProductsByCollection(slug);
-  const allProducts = rawProducts.length > 0 ? rawProducts : PRODUCTS.slice(0, 4);
+export default function ProductsPage() {
+  const allProducts = PRODUCTS;
 
   const DEFAULT_FILTERS: FilterState = useMemo(() => ({
     priceMin: 0, priceMax: PRICE_BOUNDS.max, minRating: 0, sortBy: 'featured',
@@ -328,20 +273,36 @@ export default function CollectionPage() {
 
   const hasActiveFilters = filters.priceMin > 0 || filters.priceMax < PRICE_BOUNDS.max || filters.minRating > 0 || filters.sortBy !== 'featured';
 
-  if (!collection) return <CollectionNotFound />;
-
   return (
-    <div className="min-h-screen bg-warm-white">
-      <CollectionHero collection={collection} />
+    <div className="min-h-screen bg-warm-white pb-20">
+      {/* ── Page Header ─────────────────────────────────────────────── */}
+      <section className="relative pt-12 pb-10 sm:pt-20 sm:pb-16 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-champagne/40 via-warm-white/80 to-warm-white pointer-events-none" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <div className="flex items-center justify-center gap-2 text-gold text-xs uppercase tracking-widest mb-4">
+              <Link href="/" className="hover:text-maroon transition-colors">Home</Link>
+              <span>/</span>
+              <span className="text-maroon">All Products</span>
+            </div>
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-semibold text-ink mb-5">
+              Our <span className="italic text-maroon">Collection</span>
+            </h1>
+            <div className="gold-divider my-0 w-24 mx-auto mb-6">
+              <span className="text-gold text-sm shrink-0">✦</span>
+            </div>
+            <p className="text-sm sm:text-base text-ink-light/70 max-w-xl mx-auto leading-relaxed">
+              Explore our complete range of handcrafted jewelry. From traditional temple designs to contemporary everyday pieces.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         {/* Top Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <Link href="/collections" className="inline-flex items-center gap-1.5 text-xs text-gold-dark font-semibold uppercase tracking-wider hover:text-maroon transition-colors mb-2">
-              <ArrowLeft size={13} /> All Collections
-            </Link>
-            <h2 className="font-serif text-2xl sm:text-3xl font-light text-ink">{collection.name}</h2>
+            <h2 className="font-serif text-2xl font-light text-ink hidden sm:block">All Pieces</h2>
             <p className="text-sm text-gray-400 mt-0.5">
               {filteredProducts.length} products {hasActiveFilters && <span className="text-maroon font-medium">(filtered)</span>}
             </p>

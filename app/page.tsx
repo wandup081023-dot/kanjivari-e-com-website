@@ -105,7 +105,7 @@ export default function Home() {
             </div>
             <div className="text-center flex flex-col items-center">
               <h4 className="font-headline-sm text-lg text-primary mb-2">Mayuri Jhumkas</h4>
-              <span className="font-price-display text-price-display text-on-surface-variant">$2,450</span>
+              <span className="font-price-display text-price-display text-on-surface-variant">₹499</span>
             </div>
           </Link>
           
@@ -125,7 +125,7 @@ export default function Home() {
             </div>
             <div className="text-center flex flex-col items-center">
               <h4 className="font-headline-sm text-lg text-primary mb-2">Nizam Kundan Choker</h4>
-              <span className="font-price-display text-price-display text-on-surface-variant">$8,900</span>
+              <span className="font-price-display text-price-display text-on-surface-variant">₹599</span>
             </div>
           </Link>
           
@@ -145,7 +145,7 @@ export default function Home() {
             </div>
             <div className="text-center flex flex-col items-center">
               <h4 className="font-headline-sm text-lg text-primary mb-2">Devi Temple Bangles</h4>
-              <span className="font-price-display text-price-display text-on-surface-variant">$4,200</span>
+              <span className="font-price-display text-price-display text-on-surface-variant">₹399</span>
             </div>
           </Link>
           
@@ -165,7 +165,7 @@ export default function Home() {
             </div>
             <div className="text-center flex flex-col items-center">
               <h4 className="font-headline-sm text-lg text-primary mb-2">Rajputana Polki Ring</h4>
-              <span className="font-price-display text-price-display text-on-surface-variant">$1,850</span>
+              <span className="font-price-display text-price-display text-on-surface-variant">₹299</span>
             </div>
           </Link>
         </div>
