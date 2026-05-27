@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #210000;
+  --color-surface-variant: #e6e2dd;
+  --color-on-tertiary-container: #b18000;
+  --color-on-surface: #1c1c19;
+  --color-on-secondary-container: #745c00;
+  --color-on-primary-container: #d26a5f;
+  --color-secondary: #735c00;
+  --color-surface-container: #f1ede8;
+  --color-tertiary-container: #2e1f00;
+  --color-primary-container: #4a0404;
+  --color-inverse-surface: #31302d;
+  --color-secondary-container: #fed65b;
+  --color-on-background: #1c1c19;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-error: #ffffff;
+  --color-surface-bright: #fdf9f4;
+  --color-secondary-fixed-dim: #e9c349;
+  --color-on-primary-fixed-variant: #7e2b23;
+  --color-surface-container-low: #f7f3ee;
+  --color-surface-tint: #9d4139;
+  --color-outline-variant: #dcc0bd;
+  --color-surface-container-high: #ebe8e3;
+  --color-surface-dim: #ddd9d5;
+  --color-on-tertiary-fixed-variant: #5d4200;
+  --color-on-secondary-fixed: #241a00;
+  --color-primary-fixed: #ffdad5;
+  --color-surface-container-highest: #e6e2dd;
+  --color-inverse-on-surface: #f4f0eb;
+  --color-on-tertiary: #ffffff;
+  --color-background: #fdf9f4;
+  --color-error: #ba1a1a;
+  --color-inverse-primary: #ffb4aa;
+  --color-error-container: #ffdad6;
+  --color-secondary-fixed: #ffe088;
+  --color-tertiary-fixed-dim: #f7bd48;
+  --color-on-secondary: #ffffff;
+  --color-outline: #89726f;
+  --color-on-surface-variant: #554240;
+  --color-on-primary-fixed: #410001;
+  --color-surface: #fdf9f4;
+  --color-on-secondary-fixed-variant: #574500;
+  --color-tertiary: #120a00;
+  --color-on-tertiary-fixed: #271900;
+  --color-on-primary: #ffffff;
+  --color-tertiary-fixed: #ffdea6;
+  --color-on-error-container: #93000a;
+  --color-primary-fixed-dim: #ffb4aa;
+
+  --spacing-section-gap: 120px;
+  --spacing-max-width: 1440px;
+  --spacing-container-padding-mobile: 20px;
+  --spacing-container-padding-desktop: 64px;
+  --spacing-gutter: 24px;
+
+  --font-price-display: "Montserrat";
+  --font-display-lg-mobile: "Bodoni Moda";
+  --font-body-md: "Montserrat";
+  --font-body-lg: "Montserrat";
+  --font-headline-md: "Bodoni Moda";
+  --font-display-lg: "Bodoni Moda";
+  --font-label-caps: "Montserrat";
+  --font-headline-sm: "Bodoni Moda";
+
+  --text-price-display: 20px;
+  --text-price-display--line-height: 1;
+  --text-price-display--letter-spacing: 0.05em;
+  --text-price-display--font-weight: 500;
+  
+  --text-display-lg-mobile: 40px;
+  --text-display-lg-mobile--line-height: 1.2;
+  --text-display-lg-mobile--font-weight: 400;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 1.6;
+  --text-body-md--font-weight: 400;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--font-weight: 300;
+
+  --text-headline-md: 32px;
+  --text-headline-md--line-height: 1.3;
+  --text-headline-md--font-weight: 400;
+
+  --text-display-lg: 64px;
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 400;
+
+  --text-label-caps: 12px;
+  --text-label-caps--line-height: 1.2;
+  --text-label-caps--letter-spacing: 0.15em;
+  --text-label-caps--font-weight: 600;
+
+  --text-headline-sm: 24px;
+  --text-headline-sm--line-height: 1.4;
+  --text-headline-sm--font-weight: 500;
+}
+
+:root {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+}
+
+.material-symbols-outlined { 
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; 
+}
+
+.glass-panel {
+  background: rgba(253, 249, 244, 0.85); /* surface-bright with opacity */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 30px rgba(74, 4, 4, 0.05); /* very soft shadow based on primary-container */
+}
+.gold-border {
+  border: 1px solid rgba(177, 128, 0, 0.3); /* on-tertiary-container / Antique Gold */
+}
+.gold-text-gradient {
+  background: linear-gradient(135deg, #b18000, #745c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.gold-text { 
+  color: #c5a059; 
+}
+
+/* Custom Scrollbar for thumbnails */
+.thumb-scroll::-webkit-scrollbar { width: 4px; }
+.thumb-scroll::-webkit-scrollbar-track { background: transparent; }
+.thumb-scroll::-webkit-scrollbar-thumb { background: rgba(33, 0, 0, 0.2); border-radius: 4px; }
+
+/* Emulate body class from HTML */
+body {
+  @apply bg-surface text-on-surface antialiased overflow-x-hidden selection:bg-secondary-container/30 font-body-md text-body-md;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
