@@ -47,7 +47,7 @@ export default function ProductDetail({ params }: { params: Promise<{ slug: stri
       {/* Product PDP Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter lg:gap-16 items-start">
         {/* Left: Gallery Section */}
-        <div className="col-span-1 lg:col-span-7 flex flex-col-reverse md:flex-row gap-4 h-[600px] lg:h-[800px] sticky top-28">
+        <div className="col-span-1 lg:col-span-7 flex flex-col-reverse md:flex-row gap-4 h-[600px] lg:h-[800px] lg:sticky lg:top-28">
           {/* Thumbnails Track */}
           <div className="hidden md:flex flex-col gap-4 overflow-y-auto thumb-scroll pr-2 w-24 shrink-0">
             {product.images.map((img, idx) => (
