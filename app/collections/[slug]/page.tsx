@@ -3,7 +3,6 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import {
   SlidersHorizontal,
@@ -181,29 +180,100 @@ function FilterPanel({ filters, onChange, onReset, productCount }: {
 function CollectionHero({ collection }: { collection: Collection }) {
   const bannerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: bannerRef, offset: ['start start', 'end start'] });
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
 
   return (
-    <section ref={bannerRef} className="relative h-[42vh] sm:h-[50vh] overflow-hidden">
-      <motion.div className="absolute inset-0 scale-110" style={{ y }}>
-        <Image src={collection.banner} alt={collection.name} fill sizes="100vw" className="object-cover" priority />
+    <section ref={bannerRef} className="relative h-[55vh] sm:h-[65vh] overflow-hidden">
+      {/* Parallax image — native img fixes the fill+static-parent bug */}
+      <motion.div className="absolute inset-0" style={{ y, scale: 1.15 }}>
+        <img
+          src={collection.banner}
+          alt={collection.name}
+          className="w-full h-full object-cover object-center"
+        />
       </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-r from-maroon-deep/80 via-maroon-deep/50 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-maroon-deep/60 via-transparent to-transparent" />
-      <div className="absolute inset-0 flex flex-col justify-end pb-10 px-6 sm:px-10 lg:px-16">
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <div className="flex items-center gap-2 text-champagne/60 text-xs uppercase tracking-wider mb-4">
-            <Link href="/" className="hover:text-champagne transition-colors">Home</Link>
-            <span>/</span>
-            <Link href="/collections" className="hover:text-champagne transition-colors">Collections</Link>
-            <span>/</span>
-            <span className="text-champagne">{collection.name}</span>
+
+      {/* Multi-layer gradient for rich depth */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+
+      {/* Subtle vignette */}
+      <div className="absolute inset-0"
+        style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)' }}
+      />
+
+      {/* Decorative top-right gold ornament */}
+      <div className="absolute top-6 right-8 hidden sm:flex items-center gap-2 opacity-50">
+        <div className="h-px w-16 bg-[#c9a84c]" />
+        <span className="text-[#c9a84c] text-xl">✦</span>
+        <div className="h-px w-16 bg-[#c9a84c]" />
+      </div>
+
+      {/* Main content */}
+      <div className="absolute inset-0 flex flex-col justify-end pb-12 px-6 sm:px-10 lg:px-16">
+        <motion.div
+          initial={{ opacity: 0, y: 36 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          {/* Breadcrumb with pill background for readability */}
+          <div className="inline-flex items-center gap-2 bg-black/30 backdrop-blur-sm border border-white/10 rounded-full px-4 py-1.5 mb-6">
+            <Link href="/" className="text-white/60 text-[11px] uppercase tracking-widest hover:text-white transition-colors">
+              Home
+            </Link>
+            <span className="text-[#c9a84c] text-[10px]">›</span>
+            <Link href="/collections" className="text-white/60 text-[11px] uppercase tracking-widest hover:text-white transition-colors">
+              Collections
+            </Link>
+            <span className="text-[#c9a84c] text-[10px]">›</span>
+            <span className="text-white text-[11px] uppercase tracking-widest font-semibold">
+              {collection.name}
+            </span>
           </div>
-          <p className="text-gold text-xs tracking-[0.3em] uppercase mb-2">{collection.productCount}+ Handcrafted Pieces</p>
-          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-ivory leading-tight">{collection.name}</h1>
-          <p className="mt-3 text-sm text-champagne/70 max-w-xl">{collection.description}</p>
+
+          {/* Gold eyebrow label */}
+          <div className="flex items-center gap-3 mb-3">
+            <div className="h-px w-10 bg-[#c9a84c]" />
+            <p className="text-[#c9a84c] text-[11px] tracking-[0.35em] uppercase font-bold">
+              {collection.productCount}+ Handcrafted Pieces
+            </p>
+          </div>
+
+          {/* Collection name — large, elegant serif */}
+          <h1
+            className="font-serif font-semibold text-white leading-[1.1] mb-4 drop-shadow-2xl"
+            style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}
+          >
+            {collection.name}
+          </h1>
+
+          {/* Description with left gold border accent */}
+          <div className="flex items-start gap-3 max-w-xl">
+            <div className="w-0.5 h-full min-h-[2.5rem] bg-[#c9a84c] rounded-full shrink-0 mt-0.5" />
+            <p className="text-white/75 text-sm sm:text-base leading-relaxed">
+              {collection.description}
+            </p>
+          </div>
+
+          {/* CTA row */}
+          <div className="flex items-center gap-4 mt-7">
+            <Link
+              href="/collections"
+              className="inline-flex items-center gap-2 text-white/60 text-xs uppercase tracking-widest hover:text-[#c9a84c] transition-colors duration-200"
+            >
+              <ArrowLeft size={13} />
+              All Collections
+            </Link>
+            <div className="w-px h-4 bg-white/20" />
+            <span className="text-white/40 text-xs uppercase tracking-widest">
+              {collection.productCount}+ pieces available
+            </span>
+          </div>
         </motion.div>
       </div>
+
+      {/* Bottom fade into page background */}
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#faf8f5] to-transparent" />
     </section>
   );
 }

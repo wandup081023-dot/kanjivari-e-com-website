@@ -2,7 +2,6 @@
 
 import { useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { COLLECTIONS, Collection } from '@/lib/data';
@@ -44,96 +43,101 @@ function CollectionCard({ collection, index }: { collection: Collection; index: 
       variants={fadeUpVariants}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
+      className="group"
     >
-      <Link href={`/collections/${collection.slug}`} className="group block">
-        <div className="relative overflow-hidden rounded-sm shadow-[0_4px_30px_rgba(74,4,4,0.05)] bg-surface-container">
-          {/* Image container with overlay */}
-          <div className="relative aspect-[4/5] overflow-hidden">
-            <motion.div
-              className="w-full h-full"
-              whileHover={{ scale: 1.07 }}
-              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              <Image
-                src={collection.banner}
-                alt={collection.name}
-                fill
-                sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                className="object-cover blur-[2px]"
-                priority={index < 3}
-              />
-            </motion.div>
+      <Link href={`/collections/${collection.slug}`} className="block">
+        {/* Card wrapper */}
+        <div className="relative overflow-hidden rounded-2xl shadow-card bg-[#1a1410] aspect-[4/5]">
 
-            {/* Gradient overlay — always present, deepens on hover */}
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
+          {/* Background image — native img, no fill needed */}
+          <img
+            src={collection.banner}
+            alt={collection.name}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          />
 
-            {/* Featured badge */}
-            {collection.featured && (
-              <div className="absolute top-4 left-4">
-                <span className="glass-panel px-3 py-1 gold-border rounded-sm flex items-center gap-1 font-body-md text-[10px] uppercase tracking-widest text-primary">
-                  <Sparkles size={9} />
-                  Featured
-                </span>
-              </div>
-            )}
+          {/* Always-on dark gradient for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
 
-            {/* Bottom content */}
-            <div className="absolute bottom-0 left-0 right-0 p-6">
-              {/* Product count pill */}
-              <span className="font-label-caps text-label-caps text-surface-variant/80 uppercase tracking-widest block mb-2">
-                {collection.productCount}+ pieces
+          {/* Deeper overlay on hover */}
+          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+          {/* Featured badge */}
+          {collection.featured && (
+            <div className="absolute top-4 left-4 z-10">
+              <span className="flex items-center gap-1.5 bg-white/15 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.15em] text-white">
+                <Sparkles size={9} className="text-[#c9a84c]" />
+                Featured
               </span>
-
-              <h3 className="font-headline-sm text-headline-sm text-surface-container-lowest mb-1">
-                {collection.name}
-              </h3>
-
-              <p className="font-body-md text-body-md text-surface-container-lowest/80 line-clamp-2 leading-relaxed mb-4">
-                {collection.description}
-              </p>
-
-              {/* CTA */}
-              <div className="flex items-center gap-2 text-[#c5a059] font-label-caps text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                <span>Explore Collection</span>
-                <motion.span
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
-                >
-                  <ArrowRight size={13} />
-                </motion.span>
-              </div>
             </div>
+          )}
+
+          {/* Product count badge — top right */}
+          <div className="absolute top-4 right-4 z-10">
+            <span className="bg-[#c9a84c]/90 backdrop-blur-sm text-[#1a1410] text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">
+              {collection.productCount}+ pieces
+            </span>
           </div>
+
+          {/* Bottom text content */}
+          <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
+            {/* Collection name */}
+            <h3 className="font-serif text-xl sm:text-2xl font-semibold text-white mb-1.5 leading-tight drop-shadow-sm">
+              {collection.name}
+            </h3>
+
+            {/* Description — always visible */}
+            <p className="text-white/75 text-xs leading-relaxed line-clamp-2 mb-4">
+              {collection.description}
+            </p>
+
+            {/* CTA button */}
+            <div className="flex items-center gap-2 translate-y-1 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <span className="text-[#c9a84c] text-[11px] font-bold uppercase tracking-[0.15em]">
+                Explore Collection
+              </span>
+              <motion.span
+                animate={{ x: [0, 4, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
+                className="text-[#c9a84c]"
+              >
+                <ArrowRight size={13} />
+              </motion.span>
+            </div>
+
+            {/* Bottom divider line that grows on hover */}
+            <div className="h-px bg-white/20 mt-3 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
+          </div>
+        </div>
+
+        {/* Card label below — always visible, not overlaid */}
+        <div className="mt-3 px-1 flex items-center justify-between">
+          <span className="font-serif text-[#1a1410] font-semibold text-sm group-hover:text-[#6b1c2a] transition-colors duration-200">
+            {collection.name}
+          </span>
+          <span className="text-[10px] uppercase tracking-widest text-[#a07a2c] font-bold">
+            {collection.productCount}+ pcs
+          </span>
         </div>
       </Link>
     </motion.div>
   );
 }
 
-// ─── Decorative Ornament ──────────────────────────────────────────────────
-function GoldOrnament() {
-  return (
-    <div className="gold-divider my-0 w-32 mx-auto">
-      <span className="text-gold text-lg shrink-0">✦</span>
-    </div>
-  );
-}
-
 // ─── Page ─────────────────────────────────────────────────────────────────
 export default function CollectionsPage() {
   const headerRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="min-h-screen bg-warm-white">
-      {/* ── Hero Header ─────────────────────────────────────────────── */}
-      <section className="relative pt-8 pb-16 overflow-hidden luxury-pattern">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-champagne/40 via-warm-white/80 to-warm-white pointer-events-none" />
+    <div className="min-h-screen bg-[#faf8f5]">
 
+      {/* ── Hero Header ─────────────────────────────────────────────── */}
+      <section className="relative pt-10 pb-14 overflow-hidden">
+        {/* Warm gradient bg */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f7e7ce]/50 via-[#faf8f5]/80 to-[#faf8f5] pointer-events-none" />
         {/* Decorative blobs */}
-        <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-champagne/30 blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-10 -left-10 w-60 h-60 rounded-full bg-blush/20 blur-3xl pointer-events-none" />
+        <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[#f7e7ce]/40 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-10 -left-10 w-60 h-60 rounded-full bg-[#f2d9d4]/30 blur-3xl pointer-events-none" />
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <motion.div
@@ -142,38 +146,47 @@ export default function CollectionsPage() {
             initial="hidden"
             animate="visible"
           >
-            {/* Section label */}
-            <div className="section-label justify-center mb-4">
-              <span className="text-gold">✦</span>
-              <span>Our Curated Collections</span>
-              <span className="text-gold">✦</span>
+            {/* Eyebrow label */}
+            <div className="flex items-center justify-center gap-3 mb-5">
+              <span className="text-[#c9a84c] text-base">✦</span>
+              <span className="text-xs uppercase tracking-[0.25em] font-bold text-[#a07a2c]">
+                Our Curated Collections
+              </span>
+              <span className="text-[#c9a84c] text-base">✦</span>
             </div>
 
             {/* Main title */}
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-semibold text-ink mb-5 leading-tight">
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-semibold text-[#1a1410] mb-5 leading-tight">
               Discover Our{' '}
-              <span className="italic text-maroon">Collections</span>
+              <span className="italic text-[#6b1c2a]">Collections</span>
             </h1>
 
-            <GoldOrnament />
+            {/* Gold divider */}
+            <div className="flex items-center justify-center gap-3 my-5">
+              <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#c9a84c]" />
+              <span className="text-[#c9a84c] text-lg">✦</span>
+              <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#c9a84c]" />
+            </div>
 
             {/* Subtitle */}
-            <p className="mt-6 text-base sm:text-lg text-ink-light/70 max-w-2xl mx-auto leading-relaxed">
-              Each collection tells a story of India's rich jewelry heritage — from sacred temple 
-              traditions to modern Instagram trends. Find the perfect jhumka for every moment 
-              and mood.
+            <p className="text-base sm:text-lg text-[#3d2b1f]/60 max-w-2xl mx-auto leading-relaxed">
+              Each collection tells a story of India&apos;s rich jewelry heritage — from sacred temple
+              traditions to modern Instagram trends. Find the perfect jhumka for every moment and mood.
             </p>
 
             {/* Stats row */}
-            <div className="flex items-center justify-center gap-8 mt-10">
+            <div className="flex items-center justify-center gap-10 mt-10">
               {[
                 { value: '6', label: 'Collections' },
                 { value: '138+', label: 'Unique Pieces' },
                 { value: '10K+', label: 'Happy Customers' },
-              ].map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <p className="font-serif text-2xl sm:text-3xl font-semibold text-maroon">{stat.value}</p>
-                  <p className="text-xs text-ink-light/60 uppercase tracking-widest mt-0.5">{stat.label}</p>
+              ].map((stat, i) => (
+                <div key={stat.label} className="text-center relative">
+                  {i > 0 && (
+                    <div className="absolute -left-5 top-1/2 -translate-y-1/2 h-8 w-px bg-[#c9a84c]/30" />
+                  )}
+                  <p className="font-serif text-2xl sm:text-3xl font-bold text-[#6b1c2a]">{stat.value}</p>
+                  <p className="text-[10px] text-[#3d2b1f]/50 uppercase tracking-widest mt-0.5">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -183,10 +196,17 @@ export default function CollectionsPage() {
 
       {/* ── Collection Grid ──────────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div
-          ref={gridRef}
-          className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
-        >
+
+        {/* Section label */}
+        <div className="flex items-center gap-4 mb-8">
+          <div className="h-px flex-1 bg-[#e8c99a]/50" />
+          <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#a07a2c]">
+            All Collections
+          </span>
+          <div className="h-px flex-1 bg-[#e8c99a]/50" />
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
           {COLLECTIONS.map((collection, index) => (
             <CollectionCard key={collection.id} collection={collection} index={index} />
           ))}
@@ -201,12 +221,12 @@ export default function CollectionsPage() {
           className="text-center mt-16"
         >
           <div className="inline-flex flex-col items-center gap-4">
-            <p className="text-sm text-ink-light/60 font-medium">
-              Can't find what you're looking for?
+            <p className="text-sm text-[#3d2b1f]/50 font-medium">
+              Can&apos;t find what you&apos;re looking for?
             </p>
             <Link
               href="/products"
-              className="btn-luxury btn-outline px-8 py-3.5 rounded-full"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border-2 border-[#6b1c2a] text-[#6b1c2a] font-bold text-sm uppercase tracking-widest hover:bg-[#6b1c2a] hover:text-white transition-all duration-300"
             >
               Browse All Products
             </Link>
@@ -214,8 +234,8 @@ export default function CollectionsPage() {
         </motion.div>
       </section>
 
-      {/* ── Why Kanjivaram Banner ─────────────────────────────────────── */}
-      <section className="bg-gradient-maroon py-16 px-4 sm:px-6">
+      {/* ── Kanjivaram Promise Banner ──────────────────────────────── */}
+      <section className="bg-gradient-to-r from-[#4a1018] to-[#6b1c2a] py-16 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -224,10 +244,10 @@ export default function CollectionsPage() {
             transition={{ duration: 0.7 }}
             className="text-center mb-10"
           >
-            <h2 className="font-serif text-3xl sm:text-4xl text-ivory mb-3">
+            <h2 className="font-serif text-3xl sm:text-4xl text-[#f7e7ce] mb-3">
               The Kanjivaram Promise
             </h2>
-            <p className="text-champagne/70 text-sm max-w-xl mx-auto">
+            <p className="text-[#f7e7ce]/60 text-sm max-w-xl mx-auto">
               Every piece crafted with devotion, every delivery wrapped with care.
             </p>
           </motion.div>
@@ -248,8 +268,8 @@ export default function CollectionsPage() {
                 className="flex flex-col items-center gap-2"
               >
                 <span className="text-3xl mb-1">{item.icon}</span>
-                <h4 className="font-serif text-lg text-champagne font-medium">{item.title}</h4>
-                <p className="text-[11px] text-champagne/60 uppercase tracking-wider">{item.desc}</p>
+                <h4 className="font-serif text-lg text-[#f7e7ce] font-medium">{item.title}</h4>
+                <p className="text-[11px] text-[#f7e7ce]/50 uppercase tracking-wider">{item.desc}</p>
               </motion.div>
             ))}
           </div>

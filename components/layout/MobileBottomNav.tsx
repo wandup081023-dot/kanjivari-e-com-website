@@ -6,7 +6,7 @@ import { useCartStore } from '@/store/cartStore';
 
 const navItems = [
   { label: 'Home', href: '/', icon: 'home' },
-  { label: 'Shop', href: '/collections', icon: 'grid_view' },
+  { label: 'Shop', href: '/products', icon: 'grid_view' },
   { label: 'Cart', href: '#', icon: 'shopping_bag', isButton: true },
   { label: 'Wishlist', href: '/account/wishlist', icon: 'favorite' },
   { label: 'Account', href: '/account', icon: 'person' },

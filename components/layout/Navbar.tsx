@@ -28,7 +28,7 @@ export default function Navbar() {
         }`}
       >
         <nav className="flex items-center gap-8">
-          <Link href="/collections" className="font-label-caps text-label-caps text-on-surface-variant hover:text-primary hover:text-on-secondary-container transition-colors duration-300">Shop</Link>
+          <Link href="/products" className="font-label-caps text-label-caps text-on-surface-variant hover:text-primary hover:text-on-secondary-container transition-colors duration-300">Shop</Link>
           <Link href="/collections" className="font-label-caps text-label-caps text-on-surface-variant hover:text-primary hover:text-on-secondary-container transition-colors duration-300">Collections</Link>
           <Link href="/about" className="font-label-caps text-label-caps text-on-surface-variant hover:text-primary hover:text-on-secondary-container transition-colors duration-300">Our Story</Link>
         </nav>
